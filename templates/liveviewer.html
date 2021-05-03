@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Camera Configuration</title>
+  <link rel="stylesheet" href="/static/fa/all.min.css">
+  <link rel="stylesheet" href="/static/fa/fontawesome.min.css">
+  <script src="/static/jquery.min.js"></script>
+  <link rel="stylesheet" href="/static/bulma.min.css">
+</head>
+
+<body>
+  <block>
+    <!-- <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
+        <ul>
+            <li><a href="#">&nbsp;&nbsp;&nbsp;Home</a></li>
+            <li class='is-active'><a href="#">Live Viewer</a></li>
+        </ul>
+    </nav> -->
+  </block>
+
+  <!-- Start Time -->
+  <section class="hero is-dark is-fullheight">
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <block>
+
+        </block>
+        <a class="navbar-item" href="http://laonpeople.com" style="width:150px;height: 80px;">
+          <img src="/static/logo.png" width='100%' height='100%'>
+        </a>
+
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div>&nbsp;&nbsp;</div>
+      <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" href='/liveviewer'>
+            Live Viewer
+          </a>
+
+          <a class="navbar-item" href='/systeminfo'>
+            System Info
+          </a>
+
+          <a class="navbar-item" href='/dmssetting'>
+            DMS Settings
+          </a>
+          <a class="navbar-item" href='/timesetting'>
+            Time
+          </a>
+          <a class="navbar-item" href='/adminsetting'>
+            Admin Settings
+          </a>
+
+        </div>
+      </div>
+    </nav>
+    <div class="hero-body">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column is-half">
+            <img src="{{ url_for('video_feed') }}">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id='update_pass' class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Change Password</p>
+        <button class="delete" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body">
+        <div class="field">
+          <label class="label">New Password</label>
+          <div class="control has-icons-left has-icons-right">
+            <input id='new_pass' class="input" type="password" name="new_pass"
+              placeholder="Enter New Password(at least 8)">
+            <span class="icon is-small is-left">
+              <i class="fas fa-key"></i>
+            </span>
+          </div>
+        </div>
+      </section>
+      <footer class="modal-card-foot">
+        <button id='saveBtn' class="button is-success" onclick="updatePassReq();">Save changes</button>
+        <button class="button"
+          onclick='$("#time_setting").removeClass("is-active");$("html").toggleClass("is-clipped");'>Cancel</button>
+      </footer>
+    </div>
+  </div>
+  <!-- End Time  -->
+
+</body>
+<script>
+
+  $(document).ready(function () {
+    // Check for click events on the navbar burger icon
+    $(".navbar-burger").click(function () {
+      // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+      $(".navbar-burger").toggleClass("is-active");
+      $(".navbar-menu").toggleClass("is-active");
+    });
+  });
+
+  function toggleModalClasses(event) {
+    $(".modal").addClass("is-active");
+    $('html').toggleClass('is-clipped');
+  };
+
+  $(".modal-close").click(function () {
+    $(".modal").removeClass("is-active");
+  });
+
+  $(".delete").click(function () {
+    $(".modal").removeClass("is-active");
+    $('html').toggleClass('is-clipped');
+  });
+
+  $('.open-modal').click(toggleModalClasses);
+  $('.close-modal').click(toggleModalClasses);
+
+  $("#reset_btn").click(function () {
+    var ans = confirm("Are you sure to reset password?");
+    if (ans) {
+      $.post("/api/resetpass")
+        .done(function (data) {
+          console.log("Password reset successfully.")
+        }).fail(function (err) {
+          alert("Date change failed")
+        })
+    }
+  });
+
+
+  $("#change_btn").click(function () {
+    $("#update_pass").addClass("is-active");
+    $('html').toggleClass('is-clipped');
+  });
+
+
+
+  function updatePassReq() {
+    var targetPass = $("#new_pass").val()
+    alert(targetPass)
+    $.post("/api/updatepass", { targetPass: targetPass })
+      .done(function (data) {
+        alert("Password changed successfully.")
+      }).fail(function (err) {
+        alert("Failed password update.")
+      }).always(() => {
+        $(".modal").removeClass("is-active");
+        $('html').toggleClass('is-clipped');
+      })
+  }
+
+
+</script>
+
+</html>
