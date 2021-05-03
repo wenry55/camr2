@@ -4,8 +4,8 @@
 python app.py
 
 
-아래의 문제는 다음과 같이 처리됨.
-
+!!!아래의 문제는 다음과 같이 처리됨.
+----
 1. lib 디렉토리에 werkzeug wheel 을 직접 배포하고 app.py 시작시
 sys.path를 추가하여 처리함.
 
