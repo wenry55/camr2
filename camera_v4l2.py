@@ -41,11 +41,11 @@ class Camera(BaseCamera):
                 yuv[4::6] = u
                 yuv[5::6] = v
                 image = Image.frombytes("YCbCr",(size_x,size_y),yuv)
-                resize_image = image.resize((640,380))
+                resize_image = image.resize((640,480))
                 resize_image.save(bio, format="jpeg")
                 yield bio.getvalue()
                 bio.seek(0)
                 bio.truncate()
-                time.sleep(0.1)
+                #time.sleep(0.1)
         finally:
             video.close()
