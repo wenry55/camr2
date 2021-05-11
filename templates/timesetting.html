@@ -125,7 +125,12 @@
     }
 
     $("#ctimebtn").click(function () {
-        $("#systime:text").val($('#curtime_text').text());
+        // $("#systime:text").val($('#curtime_text').text());
+        // $("#systime:text").val(new Date().toISOString());
+        var cur = new Date().getTime() - new Date().getTimezoneOffset() * 60 * 1000
+        var curDate = new Date(cur)
+        var curDateStr = curDate.toISOString().split('T')[0] + ' ' + curDate.toISOString().split('T')[1].substring(0, 8)
+        $("#systime:text").val(curDateStr);
         $("#time_setting").addClass("is-active");
         $('html').toggleClass('is-clipped');
     });
@@ -137,13 +142,20 @@
     function updateTimeReq() {
         var targetTimeStr = $("#systime:text").val()
         var targetTime = Date.parse(targetTimeStr)
+        console.log(targetTime)
+        if (Object.is(targetTime, NaN)) {
+            alert('Date format is not correct.')
+            $(".modal").removeClass("is-active");
+            $('html').toggleClass('is-clipped');
+            return
+        }
         $.post("/api/updatetime", { targetTime: targetTime })
             .done(function (data) {
                 var d = new Date(parseInt(data))
                 console.log(d.toLocaleString())
                 alert("Date changed successfully.")
             }).fail(function (err) {
-                alert("Date change failed")
+                alert("Date change failed", err)
             }).always(() => {
                 $(".modal").removeClass("is-active");
                 $('html').toggleClass('is-clipped');

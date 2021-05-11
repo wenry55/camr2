@@ -22,6 +22,7 @@ from datetime import datetime
 
 RESET_TO='admin1234'
 SITE_ROOT='/root/camr'
+SITE_ROOT=os.getcwd()
 USER_CONF=f"{SITE_ROOT}/config.json"
 DMS_CONF=f"{SITE_ROOT}/dmsconfig.json"
 SYS_INFO=f"{SITE_ROOT}/sysinfo.json"
