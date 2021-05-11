@@ -64,7 +64,7 @@
     </nav>
     <div class="hero-body">
       <div class="container">
-        <div class="columns is-centered">
+        <div class="columns">
           <div class="column is-half">
             <article class="message">
               <div class="message-header">
@@ -111,7 +111,7 @@
       <footer class="modal-card-foot">
         <button id='saveBtn' class="button is-success" onclick="updatePassReq();">Save changes</button>
         <button class="button"
-          onclick='$("#time_setting").removeClass("is-active");$("html").toggleClass("is-clipped");'>Cancel</button>
+          onclick='$("#update_pass").removeClass("is-active");$("html").toggleClass("is-clipped");'>Cancel</button>
       </footer>
     </div>
   </div>
@@ -168,7 +168,7 @@
 
   function updatePassReq() {
     var targetPass = $("#new_pass").val()
-    alert(targetPass)
+
     $.post("/api/updatepass", { targetPass: targetPass })
       .done(function (data) {
         alert("Password changed successfully.")
