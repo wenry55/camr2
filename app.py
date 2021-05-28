@@ -172,6 +172,12 @@ def resetpass():
     data['admin'] = RESET_TO
     with open(USER_CONF, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
+        
+    users = []
+    users.append(User(id=1, username='laon', password='laon1234'))
+    usersObj = json.load(open(USER_CONF))
+    users.append(User(id=2, username='admin', password=usersObj['admin']))
+
     return jsonify("OK")
 
 @app.route('/api/updatepass', methods=['POST'])
@@ -181,6 +187,12 @@ def updatepass():
     data['admin'] = passwd
     with open(USER_CONF, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
+
+    users = []
+    users.append(User(id=1, username='laon', password='laon1234'))
+    usersObj = json.load(open(USER_CONF))
+    users.append(User(id=2, username='admin', password=usersObj['admin']))
+
     return jsonify("OK")
 
 
