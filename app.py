@@ -163,6 +163,7 @@ def updatetime():
     print('--->', targetTime)
     time_string=datetime.fromtimestamp(targetTime/1000).strftime("%Y-%m-%dT%H:%M:%S")
     subprocess.call(shlex.split(f"date -s '{time_string}'"))
+    subprocess.call(shlex.split(f"hwclock -w"))
 
     return jsonify(targetTime)
 
@@ -172,7 +173,8 @@ def resetpass():
     data['admin'] = RESET_TO
     with open(USER_CONF, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
-        
+
+    global users    
     users = []
     users.append(User(id=1, username='laon', password='laon1234'))
     usersObj = json.load(open(USER_CONF))
@@ -188,6 +190,7 @@ def updatepass():
     with open(USER_CONF, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
+    global users
     users = []
     users.append(User(id=1, username='laon', password='laon1234'))
     usersObj = json.load(open(USER_CONF))
