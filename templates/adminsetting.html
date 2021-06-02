@@ -172,6 +172,7 @@
     $.post("/api/updatepass", { targetPass: targetPass })
       .done(function (data) {
         alert("Password changed successfully.")
+        window.location.href = "/login"
       }).fail(function (err) {
         alert("Failed password update.")
       }).always(() => {

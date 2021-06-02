@@ -88,10 +88,8 @@ def login():
         session.pop('user_id', None)
         username = request.form['username']
         password = request.form['password']
-        print(username, password)
         
         user = [x for x in users if x.username == username][0]
-        print(user.username, user.password, user.id)
         if user and user.password == password:
             session['user_id'] = user.id
             return redirect(url_for('liveviewer'))
@@ -179,6 +177,7 @@ def resetpass():
     users.append(User(id=1, username='laon', password='laon1234'))
     usersObj = json.load(open(USER_CONF))
     users.append(User(id=2, username='admin', password=usersObj['admin']))
+    session.pop('user_id', None)
 
     return jsonify("OK")
 
@@ -195,6 +194,7 @@ def updatepass():
     users.append(User(id=1, username='laon', password='laon1234'))
     usersObj = json.load(open(USER_CONF))
     users.append(User(id=2, username='admin', password=usersObj['admin']))
+    session.pop('user_id', None)
 
     return jsonify("OK")
 
