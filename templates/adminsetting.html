@@ -152,6 +152,8 @@
       $.post("/api/resetpass")
         .done(function (data) {
           console.log("Password reset successfully.")
+          window.location.href = "/login"
+
         }).fail(function (err) {
           alert("Date change failed")
         })
